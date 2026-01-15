@@ -1,14 +1,14 @@
    # CoUDA
-This is a PyTorch implementation of [CoUDA: Continual Unsupervised Domain Adaptation for Industrial Fault Diagnosis Under Dynamic Working Conditions](https://ieeexplore.ieee.org/document/10896871).
-Note that the link of supplementary material in the main paper PDF is incorrect, please check it in `/pdf` for more details.
+This is a PyTorch implementation of [CoUDA: Continual Unsupervised Domain Adaptation for Industrial Fault Diagnosis Under Dynamic Working Conditions](https://ieeexplore.ieee.org/document/10896871).\
+Note that the link of [supplementary material](./pdf/SI.pdf) in the [main paper PDF](./pdf/CoUDA.pdf) is incorrect, please check it for more details.
 
 
 ## Dataset Layout
 **Please note that the SDUST dataset used in this study is not an open-source dataset.** It is merely an older version of the open-source edition that employed different bearing models and fewer failures. Due to copyright restrictions, the original data cannot be provided. 
 
 - `.mat` files under `data/`, loaded by [`dataloader_domain.dataloader`](dataloader_domain.py).
-- You should ensure that the fields in the `.mat` files follow the layout below:
-Samples follow domain → class → samples. 
+- You should ensure that the fields in the `.mat` files follow the layout below:\
+Samples follow domain → class → samples. \
 For example, if there are 6 domains and 10 classes, the first 100 samples (We set 100 samples per class as default) belong to domain 0 class 0, the next 100 samples belong to domain 0 class 1, and so on. Each sample is indexed by the offset rule:  $d$ × `args.nb_cl` × 100 + $c$ × 100 + $s$, where $d$ is the domain index, $c$ is the class index, and $s$ is the sample index within that class. The dimension of `data` is (1,1024) by default, and will be reshaped to (1,32,32).
 - `--Domain_Seq` sets session order; 
 
