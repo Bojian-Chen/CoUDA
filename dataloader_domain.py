@@ -27,33 +27,6 @@ class dataloader():
         if args.data_mode == 'Time':
             self.data = torch.FloatTensor((self.data))
 
-        # if args.preprocess:
-        #     mean = torch.mean(self.data, dim=1, keepdim=True)
-        #     std = torch.std(self.data, dim=1, keepdim=True)
-        #     self.data = (self.data - mean) / std
-        # mean = torch.mean(self.data, dim=1, keepdim=True)
-        # print(mean.shape)
-        # std = torch.std(self.data, dim=1, keepdim=True)
-        # self.data = (self.data - mean) / std
-        # print(self.data[0])
-       
-
-
-        # print(self.data[0])
-        # self.data = transforms.ToTensor()(self.data.numpy()
-        #                                   )
-        # print(self.data.shape)
-        # print(self.data[0][0])
-        # self.data = torch.cat((self.data,self.data,self.data),1)
-
-        # self.data = abs(fft(self.data))
-        # data = []
-        # for i in self.data:
-        #     new_train_data = i[:2048]
-        #     data.append(new_train_data)
-        # self.data = torch.FloatTensor(data)
-        # self.data = torch.reshape(self.data, [-1, 1,2048])
-
         #    load label
         self.targets = torch.LongTensor(dataset['label']) 
         self.targets = self.targets.reshape(-1)
@@ -209,71 +182,4 @@ if __name__ == "__main__":
 
 
 
-    # nb_exemplar = 5
-#     nb_shot = 10.21.3233333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
-#     # txt_path = "../../data/index_list/cifar100/session_2.txt"
-#     # class_index = open(txt_path).read().splitlines()
-#     # class_index = np.arange(3,6)
-    # trainset = dataloader(root=dataroot, data_list = train_list, session=1,Domain_Seq = Domain_Seq, nb_exemplar = nb_exemplar,nb_shot = nb_shot, train= True, few_shot=True)
-#     src_trainset = dataloader(root=dataroot, data_list = train_list, session=0,Domain_Seq = Domain_Seq, nb_exemplar = 0,
-#                               index_exemplar = None, nb_shot = 0,train= True, few_shot=None,random_exemplar=False)
-#     trainset = dataloader(root=dataroot, data_list = train_list, session=1,Domain_Seq = Domain_Seq, nb_exemplar = 5,
-#                               index_exemplar = None, nb_shot = 0,train= True, few_shot=None,random_exemplar=True)
-# #     # testset = dataloader(root=dataroot, data_list = test_list, index=class_index)
-
-#     trainloader = torch.utils.data.DataLoader(dataset=src_trainset, batch_size=batch_size_base, shuffle=True, num_workers=8,
-#                                               pin_memory=True)
-#     targetloader = torch.utils.data.DataLoader(dataset=trainset, batch_size=batch_size_base, shuffle=True, num_workers=8,
-                                            #   pin_memory=True)
-    # for batch_idx,((source_data, source_label),(target_data, target_label)) in enumerate(zip(targetloader, trainloader)): 
-    #     print(batch_idx)
-    #     print(len(source_data))
-    #     print(len(target_data))
-    #         # source_data, source_label, target_data, target_label = source_data.to(device), source_label.to(device), target_data.to(device), target_label.to(device)
-    # for batch_idx,(source_data, source_label) in enumerate(targetloader): 
-    #     print(batch_idx)
-    #     print(source_data.shape)
-        # print(len(target_data))
-            
-            
-            
-    # a = trainset.data[:50]
-    # b = trainset.targets[:50]
-    # c= np.concatenate((src_trainset.data,a))
-    # d = np.concatenate((src_trainset.targets,b))
-    # src_trainset.data = c
-    # src_trainset.targets = d
-    
-    # print(src_trainset.targets[1000:1050])
-#     # cls = np.unique(trainset.targets)
-    # trainloader = torch.utils.data.DataLoader(dataset=trainset, batch_size=batch_size_base, shuffle=True, num_workers=8,
-    #                                           pin_memory=True)
-    
-    # a = torch.zeros([10, batch_size_base])
-    # for batch_index,(inputs, targets, index) in enumerate(trainloader):
-        
-    #     # print(targets)
-    #     b = torch.where(targets == 1, index, 9999)
-    #     a[batch_index,:] = b
-        # a.append(b)
-    # print(a)
-    # c = torch.where(a < 9999)
-    # print(b)
-        # print([i for i in targets where(i ==1)])
-        # print(index)
-        
-#     # print(trainset[1][1])
-#     # print(len(trainset[0]))
-#     # print(trainloader)
-#     # testloader = torch.utils.data.DataLoader(
-#     #     dataset=testset, batch_size=100, shuffle=False, num_workers=8, pin_memory=True)
-    # print(tuple(trainloader.dataset.type))
-    # print(trainloader.dataset.targets.shape)
-#     print(trainloader.dataset.targets[0:160])
-#     # a = [i for i in range(0,10) if i in trainloader.dataset.targets]
-#     # print(a)
-#     # print(testloader.dataset.data)
-#     # print(testloader.dataset.targets)
-#     # print(testloader.dataset.type)
-#     # print(type(testloader.dataset.data))
 
