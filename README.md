@@ -1,6 +1,6 @@
    # CoUDA
 This is a PyTorch implementation of [CoUDA: Continual Unsupervised Domain Adaptation for Industrial Fault Diagnosis Under Dynamic Working Conditions](https://ieeexplore.ieee.org/document/10896871).\
-Note that the link of [supplementary material](./pdf/SI.pdf) in the [main paper PDF](./pdf/CoUDA.pdf) is incorrect, please check it for more details.
+**Note that the link of [supplementary material](./pdf/SI.pdf) in the [main paper PDF](./pdf/CoUDA.pdf) is incorrect in the IEEE Xplore, please check it in this repository for more details.**
 
 
 ## Dataset Layout
