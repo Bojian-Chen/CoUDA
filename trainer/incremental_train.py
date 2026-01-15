@@ -35,14 +35,13 @@ def incremental_train(args, model, model_old, src_trainloader, tgt_trainloader, 
     model = model.to(device)
     model_old = model_old.to(device)
 
-    # model_new = model_new.to(device)
+
     
 
     for epoch in range(args.epochs):
         # Set the model to the training mode
         model.train()
         model_old.eval()
-        # model_new.train()
 
 
         # Set all the losses to zeros
@@ -90,7 +89,9 @@ def incremental_train(args, model, model_old, src_trainloader, tgt_trainloader, 
             # Distillation Loss
             loss4 = nn.CosineEmbeddingLoss()(old_features, new_features[ :batch_size], torch.ones(batch_size).to(device))
 
-            loss = loss1  + loss2 *0.1+ loss3 + loss4
+            belta = epoch / args.epochs
+
+            loss = loss1  + loss2 * belta + loss3 * (1 - belta) + loss4
 
      
             src_correct += src_predicted.eq(source_label).sum().item()

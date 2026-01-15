@@ -55,10 +55,10 @@ def base_train(args, model, trainloader, testloader, tg_optimizer, tg_lr_schedul
             outputs_softmax = nn.Softmax(dim=1)(outputs)
             # Compute classification loss
             loss1 = nn.CrossEntropyLoss(weight_per_class)(outputs, labels)
-            # loss2 = Entropy(outputs_softmax)
+       
             # Compute contrastive loss
             loss2 = Supervised_InfoNCE_loss(features,labels,temperature=args.temperature)* args.weight_contrastive
-            # loss2 = DivEntropy(outputs_softmax) * 0.1
+
         
             
             
@@ -70,10 +70,6 @@ def base_train(args, model, trainloader, testloader, tg_optimizer, tg_lr_schedul
             # Backward and update the parameters
             loss.backward()
             tg_optimizer.step()
-
-            # proto = model.fc.weight.data
-            # proto_loss = contrastive_loss(proto,torch.tensor([0,1,2,3,4]).to(device))
-            # print(proto_loss)
 
             # Record the losses and the number of samples to compute the accuracy
             train_loss += loss.item()
@@ -106,7 +102,5 @@ def base_train(args, model, trainloader, testloader, tg_optimizer, tg_lr_schedul
                 correct += predicted.eq(labels).sum().item()
             
         print('Test set: {} test loss: {:.4f} accuracy: {:.4f}'.format(len(testloader), test_loss/(batch_idx+1), 100.*correct/total))
-        # torch.save(model_1, osp.join(self.save_path, 'b1_true.pkl'))
-        # wandb.log({"Test Accuracy": 100.*correct/total, "Test Loss": test_loss/(batch_idx+1)})
-        # wandb.finish()
+
     return model

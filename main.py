@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser()
 
 ### Basic parameters
 parser.add_argument('--random_seed', default=2024, type=int, help='random seed')
-parser.add_argument('--backbone_name', default='resnet14', type=str, choices=['resnet14','resnet32', 'resnet18_1D','cnn'], help='the backbone name')
+parser.add_argument('--backbone_name', default='resnet14', type=str, choices=['resnet14','resnet32'], help='the backbone name')
 parser.add_argument('--nb_cl', type=int, help='the number of classes')
 parser.add_argument('--batch_size', default=128, type=int, help='the batch size for data loader')
 parser.add_argument('--test_batch_size', default=100, type=int, help='the batch size for test data loader')
@@ -30,12 +30,12 @@ parser.add_argument('--weight_contrastive', default=0.1, type=float, help='the w
 parser.add_argument('--preprocess', default= 'zscore', type=str, choices=['zscore', 'minmax', 'None'], help='the preprocess setting')
 
 ### Incremental parameters
-parser.add_argument('--incremental_mode', default='ours', type=str, choices=['fine_tuning', 'single', 'ours', 'MMD','LMMD','MMDA','DANN','IDANN','CORAL', 'CUA', 'CUA_MMD','ConDA','DCTLN_DWA','MuHDi', 'EverAdapt', 'source_free'], help='the incremental mode')
+parser.add_argument('--incremental_mode', default='ours', type=str, choices=['fine_tuning', 'single', 'ours', 'MMD','LMMD','MMDA','DANN','IDANN','CORAL', 'CUA', 'CUA_MMD','ConDA','DCTLN_DWA','MuHDi'], help='the incremental mode')
 parser.add_argument('--classifer', default='cos', type=str, choices=['fc', 'cos', 'eu'], help='the classifier')
 parser.add_argument('--train_parames', default='extractor', type=str, choices=['all', 'extractor', 'classifier', 'layer1_2', 'layer2_fc', 'BN', 'woBN'], help='the trained parameters of model')
 
 ### Dataset parameters
-parser.add_argument('--dataset_name', default='SK', type=str, choices=['SK', 'iFlytek', 'WT', 'PU_Real', 'PU_Art'], help='the dataset name')
+parser.add_argument('--dataset_name', default='SK', type=str, choices=['SK'], help='the dataset name')
 parser.add_argument('--data_dimension', default='2D', choices=['1D', '2D'], type=str, help='the dimension of data')
 parser.add_argument('--data_mode', default='Frequence', type=str, choices=['Frequence', 'Time'], help='the mode of data')
 parser.add_argument('--dataroot', default='./data/', type=str, help='the path to load the data')
@@ -62,42 +62,9 @@ args = parser.parse_args()
 if args.dataset_name == 'SK':
     args.train_list = './SK_all_10classes.mat'
     args.test_list = './SK_all_10classes.mat'
-    # args.train_list = './SK_new_all_10classes.mat'
-    # args.test_list = './SK_new_all_10classes.mat'
-    
     args.Domain_Seq = np.array([6,1,8,15,22,17])  # 转速 负载 持续变化
-    # args.Domain_Seq = np.array([1,6,8,15,22,17])  # 转速 负载 持续变化
-    # args.Domain_Seq = np.array([1,6,8,22,15,17])  # 转速 负载 持续变化
     args.nb_session = len(args.Domain_Seq)
     args.nb_cl = 10
-
-if args.dataset_name == 'iFlytek':
-    args.train_list = './iFlytek_all_5classes.mat'
-    args.test_list = './iFlytek_all_5classes.mat'
-    args.Domain_Seq = np.array([0,1,2,3,4,5,6,7])  # 声音信号
-    args.nb_session = len(args.Domain_Seq)
-    args.nb_cl = 5
-
-if args.dataset_name == 'WT':
-    args.train_list = './WT_all_5classes.mat'
-    args.test_list = './WT_all_5classes.mat'
-    args.Domain_Seq = np.array([0,3,4,5,6]) 
-    args.nb_session = len(args.Domain_Seq)
-    args.nb_cl = 5
-
-if args.dataset_name == 'PU_Real':
-    args.train_list = './PU_Real_4doamins_5classes.mat'
-    args.test_list = './PU_Real_4doamins_5classes.mat'
-    args.Domain_Seq = np.array([0,1,2,3])  
-    args.nb_session = len(args.Domain_Seq)
-    args.nb_cl = 5
-
-if args.dataset_name == 'PU_Art':
-    args.train_list = './PU_Art_4doamins_8classes.mat'
-    args.test_list = './PU_Art_4doamins_8classes.mat'
-    args.Domain_Seq = np.array([0,1,2,3])  
-    args.nb_session = len(args.Domain_Seq)
-    args.nb_cl = 8
 
 print('=============================================================================================================')
 print(args)
@@ -133,7 +100,6 @@ AG = torch.mean(torch.cat(AG)).item()
 AA = torch.mean(torch.tensor(AA)).item()
 BWT = torch.mean(torch.tensor(BWT)).item()
 ACC = torch.mean(Correct_t[len(Correct) - 1, 1:]).item()
-# ACC = torch.mean(torch.tensor(Correct[len(Correct) - 1])).item()
 
 print('AF: {:.2f}%'.format(AF))
 print('AMF: {:.2f}%'.format(AMF))
@@ -155,12 +121,7 @@ if args.save_model:
     df1 = pd.DataFrame(Correct)
     df = pd.concat([df, df1], axis=1)
     df.to_csv(args.pth + '/Result.csv', index=False)
- 
 
-
-
-if args.draw:
-    draw(args,Correct)
 print('totally cost: {:.2f}s'.format(time_end-time_start))
 
 
