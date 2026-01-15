@@ -54,7 +54,7 @@ parser.add_argument('--few_shot', action='store_true', help='the few-shot settin
 
 ### Save and Draw
 parser.add_argument('--save_model', action='store_true', help='the save setting')
-parser.add_argument('--draw', action='store_true', help='the draw setting')
+
 
 args = parser.parse_args()
 
