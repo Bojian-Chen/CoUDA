@@ -4,7 +4,7 @@ import os
 import os.path
 import numpy as np
 import pickle
-import scipy.io as sio #读取matlab文件
+import scipy.io as sio 
 from scipy.fftpack import fft
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset , DataLoader, TensorDataset, ConcatDataset
