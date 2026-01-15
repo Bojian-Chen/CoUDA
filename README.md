@@ -4,7 +4,7 @@ Note that the link of supplementary material in the main paper PDF is incorrect,
 
 
 ## Dataset Layout
-**Please note that the SDUST dataset used in this study is not an open-source dataset.** It is merely an older version of an open-source dataset that employed different bearing models and fewer failures. Due to copyright restrictions, the original data cannot be provided. 
+**Please note that the SDUST dataset used in this study is not an open-source dataset.** It is merely an older version of the open-source edition that employed different bearing models and fewer failures. Due to copyright restrictions, the original data cannot be provided. 
 
 - `.mat` files under `data/`, loaded by [`dataloader_domain.dataloader`](dataloader_domain.py).
 - You should ensure that the fields in the `.mat` files follow the layout below:
