@@ -24,18 +24,6 @@ def CORAL(source, target):
     return loss
 
 def guassian_kernel(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None):
-    """计算Gram/核矩阵
-    source: sample_size_1 * feature_size 的数据
-    target: sample_size_2 * feature_size 的数据
-    kernel_mul: 倍率参数
-    kernel_num: 表示的是多核的数量
-    fix_sigma: 表示是否使用固定的标准差                                                                                                                                                                                                                   
-
-		return: (sample_size_1 + sample_size_2) * (sample_size_1 + sample_size_2)的
-						矩阵，表达形式:
-						[	K_ss K_st
-							K_ts K_tt ]
-    """
 
     source = source.reshape(source.size()[0],source.size()[1])
     target = target.reshape(target.size()[0],target.size()[1])
@@ -49,7 +37,6 @@ def guassian_kernel(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None
 
     L2_distance = ((total0-total1)**2).sum(2)
  
-  
 
     if fix_sigma:
         bandwidth = fix_sigma
@@ -77,7 +64,7 @@ def mmd(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None):
     XY = kernels[:batch_size, batch_size:] # Source<->Target
     YX = kernels[batch_size:, :batch_size] # Target<->Source
 
-    loss = torch.mean(XX + YY - XY -YX) # 这里是假定X和Y的样本数量是相同的
+    loss = torch.mean(XX + YY - XY -YX) 
 
    
     return loss
@@ -315,28 +302,6 @@ def _mmsd(K_XX, K_XY, K_YY, const_diagonal=False, biased=False):
 def mmsd_rbf_loss(X1, X2, bandwidths=[3]):
     kernel_loss = mix_rbf_mmsd(X1, X2, sigmas=bandwidths)
     return kernel_loss
-# a = torch.randn(3, 64)
-# b = torch.randn(3, 64)
-# cosa_b = torch.nn.CosineSimilarity(dim=1, eps=1e-6)
-# print(cosa_b(a,b))
-# a_1 = F.normalize(a, dim=1)
-# b_1 = F.normalize(b, dim=1) 
-# cosa_b = torch.matmul(a_1, b_1.t())
-# print(cosa_b)
-# a = a.repea(10, 1)
-
-# b = torch.randn(100, 64)
-# b= b[:10,:]
-
-# c = guassian_kernel(a, b, kernel_num = 1 ,fix_sigma=0.5)
-# d = ammd(a,b)
-# print(c)
-# print(d)
-# labels = torch.tensor([0, 0, 1, 1, 2, 2])
-# a = InfoNCE_loss(feature, labels)
-# labels_matrix = labels.unsqueeze(1) == torch.arange(3).unsqueeze(0)
-# # labels_matrix = labels.unsqueeze(1) == labels.unsqueeze(0)
-# print(labels_matrix)
 
 
 def Entropy(input_):
