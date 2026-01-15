@@ -60,9 +60,9 @@ args = parser.parse_args()
 
 ### Set Domain Setting
 if args.dataset_name == 'SK':
-    args.train_list = './SK_all_10classes.mat'
-    args.test_list = './SK_all_10classes.mat'
-    args.Domain_Seq = np.array([6,1,8,15,22,17])  # 转速 负载 持续变化
+    args.train_list = './SK_all_10classes_train.mat'
+    args.test_list = './SK_all_10classes_test.mat'
+    args.Domain_Seq = np.array([0,1,2,3,4,5])  
     args.nb_session = len(args.Domain_Seq)
     args.nb_cl = 10
 

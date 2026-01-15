@@ -1,54 +1,46 @@
-# CoUDA
-This is a PyTorch implementation of CoUDA: Continual Unsupervised Domain Adaptation for Industrial Fault Diagnosis Under Dynamic Working Conditions https://ieeexplore.ieee.org/document/10896871.
-## Repository Structure
+   # CoUDA
+This is a PyTorch implementation of [CoUDA: Continual Unsupervised Domain Adaptation for Industrial Fault Diagnosis Under Dynamic Working Conditions](https://ieeexplore.ieee.org/document/10896871).
+Note that the link of supplementary material in the main paper PDF is incorrect, please check it in `/pdf` for more details.
 
-- `main.py`: argument parsing, seeding, `train`, and metric reporting.
-- `trainer/`: base (`base_train`) and incremental (`incremental_train`) pipelines.
-- `models/`: ResNet backbone plus cosine/Euclidean heads.
-- `utils.py`: helpers for datasets, optimizers, evaluation, and features.
 
 ## Dataset Layout
+**Please note that the SDUST dataset used in this study is not an open-source dataset.** It is merely an older version of an open-source dataset that employed different bearing models and fewer failures. Due to copyright restrictions, the original data cannot be provided. 
 
 - `.mat` files under `data/`, loaded by [`dataloader_domain.dataloader`](dataloader_domain.py).
-- `data`: shape $(N,1024)$, reshaped via `--data_dimension`.
-- `label`: length $N$ integers.
-- Samples follow domain → class → 100 samples; indices obey $d \times \text{nb\_cl} \times 100$ offsets.
-- `--Domain_Seq` sets session order; `--nb_shot` and `--nb_exemplar` toggle few-shot and replay data.
+- You should ensure that the fields in the `.mat` files follow the layout below:
+Samples follow domain → class → samples. 
+For example, if there are 6 domains and 10 classes, the first 100 samples (We set 100 samples per class as default) belong to domain 0 class 0, the next 100 samples belong to domain 0 class 1, and so on. Each sample is indexed by the offset rule:  $d$ × `args.nb_cl` × 100 + $c$ × 100 + $s$, where $d$ is the domain index, $c$ is the class index, and $s$ is the sample index within that class. The dimension of `data` is (1,1024) by default, and will be reshaped to (1,32,32).
+- `--Domain_Seq` sets session order; 
+
 
 ## Quick Start
 
 1. Environment:
    ```sh
-   conda create -n couda python=3.9
+   conda create -n couda
    conda activate couda
    pip install -r requirements.txt
    ```
 2. Place `.mat` files in `data/` and ensure their fields follow the layout above.
-3. Run:
-   ```sh
-   python main.py \
+3. Set domain settings and other parameters in `main.py`.  Please modify the domain settings imitating the following code:
    ```
-   - `--incremental_mode fine_tuning|single|ours`
-   - `--classifer fc|cos|eu`
-   - `--nb_exemplar`, `--random_exemplar`
+   if args.dataset_name == 'SK':
+      args.train_list = './SK_all_10classes_train.mat' 
+      args.test_list = './SK_all_10classes_test.mat'
+      args.Domain_Seq = np.array([0,1,2,3,4,5])  # domain order
+      args.nb_session = len(args.Domain_Seq)
+      args.nb_cl = 10
+   ```
 
-## Training Overview
+4. Run:
+   ```
+   python main.py 
+   ```
 
-- Session 0: call [`set_dataset`](utils.py), [`set_optimizer`](utils.py), then [`base_train`](trainer/base_train.py).
-- Later sessions: choose fine-tuning or [`incremental_train`](trainer/incremental_train.py) and optionally use `set_exemplar`.
-- Evaluation: `evaluate` reports per-domain accuracy, outputs confusion matrices, and can save models/features when `--save_model` is enabled.
-- Metrics: the script prints $AF$, $AMF$, $AG$, $AA$, $BWT$, $ACC$, and more after training.
-
-## Logs and Results
-
-Models and features are stored under:
-```
-log/<dataset>/<incremental_mode>/<preprocess>/<train_list>_<backbone>_<...>/<filename>.pth
-```
-Enable `--save_model` to generate `Result.csv` with per-session accuracy.
 
 ## References
-
+If you find this code useful in your research, please consider citing the following paper:
+```
 @ARTICLE{10896871,
   author={Chen, Bojian and Zhang, Xinmin and Shen, Changqing and Li, Qi and Song, Zhihuan},
   journal={IEEE Transactions on Industrial Informatics}, 
@@ -59,3 +51,4 @@ Enable `--save_model` to generate `Result.csv` with per-session accuracy.
   pages={4072-4082},
   keywords={Adaptation models;Fault diagnosis;Employee welfare;Data privacy;Prototypes;Data models;Representation learning;Measurement;Contrastive learning;Training;Catastrophic forgetting;continual learning;fault diagnosis;unsupervised domain adaptation (UDA)},
   doi={10.1109/TII.2025.3538135}}
+```
