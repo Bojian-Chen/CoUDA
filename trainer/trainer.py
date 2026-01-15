@@ -3,8 +3,6 @@ import copy
 from utils import *
 import os
 import models.resnet32 as resnet32
-import models.resnet1d as resnet1d
-import models.cnn as CNN
 import models.modified_linear as modified_linear
 from dataloader_domain import dataloader as dataloader
 from trainer.base_train import base_train
