@@ -16,9 +16,9 @@ Data are stored as `.mat` files in `data/`, consumed by [`dataloader_domain.data
 - `data`: A float matrix shaped $(N, 1024)$, reshaped to $(N,1,32,32)$ or $(N,1,1024)$ according to `--data_dimension`.
 - `label`: An integer vector of length $N$.
 - Samples are organized as “domain → class → sample”: each domain contains `nb_cl` classes with exactly 100 samples per class. Indices follow
-  $$
+  $
   \text{index} \in [d \times \text{nb\_cl} \times 100,\ (d+1) \times \text{nb\_cl} \times 100)
-  $$
+  $
   where $d$ is the domain ID.
 - `--Domain_Seq` defines the training session order. Session 0 uses domain `session=0`, subsequent sessions load new domains sequentially with optional few-shot or replay samples controlled by `--nb_shot` and `--nb_exemplar`.
 
